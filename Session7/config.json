@@ -1,0 +1,7 @@
+{
+"finalUrl": "mongodb+srv://admin:admin@cluster0.hsrgi.mongodb.net/Gamification?retryWrites=true&w=majority",
+"username": "admin",
+"password": "admin",
+"db": "Gamification",
+"collection": "Challenge"
+}
