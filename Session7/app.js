@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 //GET all challenges from db (works)
-app.get('/getChallenges', async (req,res) => {
+app.get('/challenges', async (req,res) => {
 
   try {
     //connect to db
@@ -43,21 +43,50 @@ app.get('/getChallenges', async (req,res) => {
   }
 });
 
+//POST challenge to db (works)
 app.post('/postChallenges', async (req,res) => {
 
   if(!req.body.id || !req.body.name || !req.body.course || !req.body.points || !req.body.session){
-    res.status(400).send('bad request, missing id, name, course, points or session. ')
+    res.status(400).send({
+      error: 'something went wrong',
+      value: error
+    })
     return;
   }
 
   try{
+    //connect db
+    await client.connect();
+    //retrieve data from collection
     const colli = client.db('Gamification').collection('Challenge');
-    const challenges = await colli.find({}).toArray();
+
+    //create new object
+    let newChallenge = {
+      id: req.body.id,
+      name: req.body.name,
+      course: req.body.course,
+      points: req.body.points,
+      session: req.body.session
+    }
+
+    //insert
+    let insertResult = await colli.insertOne(newChallenge);
+
+    //send error or succes msg
+    res.status(201).send('challenge succesfully saved')
     }catch(error){
       console.log(error);
-      res.status(500).send('An error has occured!');
+      res.status(500).send({
+        error: 'something went wrong',
+        value: error
+      });
+      //close client
+  }finally{
+    await client.close()
   }
 });
+
+
 
 /** FOR ID
 app.get('/challenge', (req, res) => {
