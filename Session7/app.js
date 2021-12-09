@@ -3,6 +3,7 @@ const fs = require('fs/promises');
 const bodyParser = require('body-parser');
 const {MongoClient} = require('mongodb');
 const config = require('./config.json');
+const cors = require('cors');
 
 //Mongo client
 const client = new MongoClient(config.finalUrl);
@@ -12,6 +13,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(cors());
 
 //ROUTES
 //landing page
