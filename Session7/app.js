@@ -66,8 +66,8 @@ app.post('/challenges', async (req,res) => {
     //create new object
     let newChallenge = {
       name: req.body.name,
-      course: req.body.course,
       points: req.body.points,
+      course: req.body.course,
       session: req.body.session
     }
     
